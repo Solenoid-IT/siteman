@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+
+# (Copying the file)
+sudo cp siteman /usr/local/bin/siteman
+
+# (Setting the permission)
+sudo chmod +x /usr/local/bin/siteman

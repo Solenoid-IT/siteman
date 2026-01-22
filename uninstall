@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+
+# (Removing the file)
+sudo rm /usr/local/bin/siteman
