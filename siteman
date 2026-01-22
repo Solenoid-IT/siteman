@@ -95,6 +95,9 @@ switch ( $argv[1] )
             system( 'sudo mkdir -p ' . escapeshellarg( "$site_path/$dir" ) );
         }
 
+        // (Executing the command)
+        system( "sudo chown -R $cli_user:$http_user " . escapeshellarg( "$site_path" ) );
+
 
 
         // (Getting the value)
