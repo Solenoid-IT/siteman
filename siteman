@@ -91,17 +91,8 @@ switch ( $argv[1] )
 
         foreach ( [ 'apache/log', 'apache/cert', 'web' ] as $dir )
         {// Processing each entry
-            if ( !mkdir( "$site_path/$dir", 0777, true ) )
-            {// (Unable to make the directory)
-                // (Setting the value)
-                $message = "Unable to make the directory '$dir'";
-
-                // Throwing an exception
-                throw new \Exception($message);
-
-                // Closing the process
-                exit;
-            }
+            // (Executing the command)
+            system( 'sudo mkdir -p ' . escapeshellarg( "$site_path/$dir" ) );
         }
 
 
