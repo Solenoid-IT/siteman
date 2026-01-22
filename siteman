@@ -95,34 +95,15 @@ switch ( $argv[1] )
             system( 'sudo mkdir -p ' . escapeshellarg( "$site_path/$dir" ) );
         }
 
+
+
+        // (Executing the command)
+        system( "sudo echo \"<?php echo '<pre>SiteMAN :: Welcome to site <b>$fqdn</b> !</pre>' ?>\" > " . escapeshellarg( "$site_path/web/index.php" ) );
+
+
+
         // (Executing the command)
         system( "sudo chown -R $cli_user:$http_user " . escapeshellarg( "$site_path" ) );
-
-
-
-        // (Getting the value)
-        $main_file_content = 
-            <<<EOD
-            <?php
-
-            // Printing the value
-            echo "<pre>SiteMAN :: Welcome to site <b>$fqdn</b> !</pre>";
-
-            ?>
-            EOD
-        ;
-
-        if ( file_put_contents( "$site_path/web/index.php", $main_file_content ) === false )
-        {// (Unable to write to the file)
-            // (Getting the value)
-            $message = "Unable to write to the file '$site_path/web/index.php'";
-
-            // Throwing an exception
-            throw new \Exception( $message );
-
-            // Closing the process
-            exit;
-        }
 
 
 
