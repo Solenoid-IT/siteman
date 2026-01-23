@@ -222,6 +222,8 @@ switch ( $argv[1] )
             #    #<Location /phpmyadmin>
             #    #    Require local
             #    #</Location>
+            #    #ProxyPass "/micro/alert" ws://localhost:3001
+            #    #ProxyPassReverse "/micro/alert" ws://localhost:3001
             #
             #
             #
