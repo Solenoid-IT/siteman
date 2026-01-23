@@ -219,6 +219,9 @@ switch ( $argv[1] )
             #    #ProxyPassReverse / http://127.0.0.1:8090/
             #    #RequestHeader set X-Forwarded-Proto "https"
             #    #RequestHeader set X-Forwarded-Port "443"
+            #    #<Location /phpmyadmin>
+            #    #    Require local
+            #    #</Location>
             #
             #
             #
