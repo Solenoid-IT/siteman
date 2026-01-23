@@ -3,9 +3,39 @@
 
 
 
+function get_cli_user ()
+{
+    // (Getting the value)
+    $real_user = getenv( 'SUDO_USER' );
+
+    if ( $real_user )
+    {// Value found
+        // (Getting the value)
+        $cli_user = $real_user;
+    }
+    else
+    {// Value not found
+        // (Getting the value)
+        $cli_user = posix_getpwuid( posix_getuid() )['name'];
+    }
+
+
+
+    // Returning the value
+    return $cli_user;
+}
+
+
+
 // (Getting the values)
-$cli_user  = get_current_user();
+#$cli_user  = get_current_user();
+$cli_user  = get_cli_user();
 $http_user = 'www-data';
+
+
+
+// (Getting the value)
+$sudo = getenv( 'SUDO_USER' ) ? true : false;
 
 
 
@@ -50,6 +80,15 @@ switch ( $argv[1] )
     case 'add':
         if ( !isset( $argv[2] ) ) exit;
 
+        if ( !$sudo )
+        {// (Not running with sudo)
+            // Printing the value
+            echo "\nYou must run this command with 'sudo' !\n\n";
+
+            // Closing the process
+            exit;
+        }
+
 
 
         // (Getting the value)
@@ -84,7 +123,6 @@ switch ( $argv[1] )
 
         // (Executing the commands)
         system( "sudo mkdir -p " . escapeshellarg( $site_path ) );
-        system( "sudo chown -R $cli_user:$http_user " . escapeshellarg( $site_path ) );
         system( "sudo chmod 2755 " . escapeshellarg( $site_path ) );
 
 
@@ -99,11 +137,6 @@ switch ( $argv[1] )
 
         // (Executing the command)
         system( "sudo echo \"<?php echo '<pre>SiteMAN :: Welcome to site <b>$fqdn</b> !</pre>' ?>\" > " . escapeshellarg( "$site_path/web/index.php" ) );
-
-
-
-        // (Executing the command)
-        system( "sudo chown -R $cli_user:$http_user " . escapeshellarg( "$site_path" ) );
 
 
 
@@ -139,7 +172,6 @@ switch ( $argv[1] )
 
         // (Executing the commands)
         system( "sudo touch " . escapeshellarg( $config_file_path ) );
-        system( "sudo chown $cli_user " . escapeshellarg( $config_file_path ) );
         system( "sudo chmod 644 " . escapeshellarg( $config_file_path ) );
 
 
@@ -310,12 +342,47 @@ switch ( $argv[1] )
 
 
 
+        // (Executing the command)
+        system( "sudo chown -R $cli_user:$http_user " . escapeshellarg( $site_path ) );
+
+
+
+        /*
+
+        // (Executing the commands)
+        system( "sudo find " . escapeshellarg( $site_path ) . " -type d -exec chmod 755 {} +" );
+        system( "sudo find " . escapeshellarg( $site_path ) . " -type f -exec chmod 644 {} +" );
+
+        */
+
+
+
+        // (Executing the command)
+        #system( "sudo chmod -R 2775 " . escapeshellarg( "$site_path" ) );
+
+
+
+        // (Executing the commands)
+        system( "sudo find " . escapeshellarg( $site_path ) . " -type d -exec chmod 2755 {} +" );
+        system( "sudo find " . escapeshellarg( $site_path ) . " -type f -exec chmod 664 {} +" );
+
+
+
         // Printing the value
         echo "\nVirtualHost '$fqdn' has been created on the Web Server !\n\n";
     break;
 
     case 'del':
         if ( !isset( $argv[2] ) ) exit;
+
+        if ( !$sudo )
+        {// (Not running with sudo)
+            // Printing the value
+            echo "\nYou must run this command with 'sudo' !\n\n";
+
+            // Closing the process
+            exit;
+        }
 
 
 
@@ -381,6 +448,15 @@ switch ( $argv[1] )
     case 'config':
         if ( !isset( $argv[2] ) ) exit;
 
+        if ( !$sudo )
+        {// (Not running with sudo)
+            // Printing the value
+            echo "\nYou must run this command with 'sudo' !\n\n";
+
+            // Closing the process
+            exit;
+        }
+
 
 
         // (Getting the value)
@@ -394,6 +470,15 @@ switch ( $argv[1] )
 
     case 'cert':
         if ( !isset( $argv[2] ) ) exit;
+
+        if ( !$sudo )
+        {// (Not running with sudo)
+            // Printing the value
+            echo "\nYou must run this command with 'sudo' !\n\n";
+
+            // Closing the process
+            exit;
+        }
 
 
 
